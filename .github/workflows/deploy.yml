@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "apps/**"
-      - "infra/terraform/**"
+      - "infra/**"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
