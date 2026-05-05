@@ -132,13 +132,17 @@ async def _exec_tool(call: ToolCall, ticker_hint: str | None) -> tuple[str, list
     args = call.arguments or {}
 
     if name == "rag_search":
-        async with sessionmaker() as session:
-            results = await hybrid_search(
-                session,
-                query=str(args.get("query", "")),
-                ticker=str(args["ticker"]) if args.get("ticker") else ticker_hint,
-                top_k=int(args.get("top_k", 5) or 5),
-            )
+        try:
+            async with sessionmaker() as session:
+                results = await hybrid_search(
+                    session,
+                    query=str(args.get("query", "")),
+                    ticker=str(args["ticker"]) if args.get("ticker") else ticker_hint,
+                    top_k=int(args.get("top_k", 5) or 5),
+                )
+        except Exception as e:
+            log.warning("rag_search_failed err=%s", e)
+            return f"(rag_search unavailable: {type(e).__name__})", []
         if not results:
             return "(no results)", []
         lines = []
