@@ -30,12 +30,29 @@ resource "google_secret_manager_secret" "all" {
 }
 
 # Cloud Run refuses to start if a referenced secret has zero versions.
-# Seed each secret with an empty placeholder; seed-secrets.sh adds real
-# values as new versions, and Cloud Run reads `:latest` so it picks them up.
+# Seed each secret with a placeholder that is *parseable* by the consumer
+# (DATABASE_URL must be a valid URL or asyncpg blows up at import time).
+# seed-secrets.sh later adds real values as new versions; Cloud Run reads
+# `:latest` so it picks them up automatically.
+locals {
+  placeholder_values = {
+    gemini_api_key            = "PLACEHOLDER_RUN_seed-secrets.sh"
+    tavily_api_key            = "PLACEHOLDER_RUN_seed-secrets.sh"
+    supabase_jwt_secret       = "PLACEHOLDER_RUN_seed-secrets.sh"
+    supabase_url              = "https://placeholder.supabase.co"
+    supabase_anon_key         = "PLACEHOLDER_RUN_seed-secrets.sh"
+    supabase_service_role_key = "PLACEHOLDER_RUN_seed-secrets.sh"
+    database_url              = "postgresql+asyncpg://placeholder:placeholder@127.0.0.1:5432/placeholder"
+    langfuse_public_key       = "PLACEHOLDER_RUN_seed-secrets.sh"
+    langfuse_secret_key       = "PLACEHOLDER_RUN_seed-secrets.sh"
+    finmind_token             = ""
+  }
+}
+
 resource "google_secret_manager_secret_version" "placeholder" {
-  for_each    = google_secret_manager_secret.all
-  secret      = each.value.id
-  secret_data = "PLACEHOLDER_RUN_seed-secrets.sh_TO_REPLACE"
+  for_each    = local.secret_ids
+  secret      = google_secret_manager_secret.all[each.key].id
+  secret_data = local.placeholder_values[each.key]
 
   lifecycle {
     ignore_changes = [secret_data, enabled]

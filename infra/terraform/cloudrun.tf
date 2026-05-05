@@ -94,7 +94,11 @@ resource "google_cloud_run_v2_service" "api" {
     }
   }
 
-  depends_on = [google_project_service.enabled]
+  depends_on = [
+    google_project_service.enabled,
+    google_secret_manager_secret_version.placeholder,
+    google_secret_manager_secret_iam_member.api_accessor,
+  ]
 }
 
 resource "google_cloud_run_v2_service_iam_member" "api_public" {
