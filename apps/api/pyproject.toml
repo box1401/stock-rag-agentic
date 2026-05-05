@@ -1,0 +1,65 @@
+[project]
+name = "compass-equity-api"
+version = "0.1.0"
+description = "Compass Equity backend — agentic equity research API"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.32",
+  "pydantic>=2.9",
+  "pydantic-settings>=2.6",
+  "sqlalchemy[asyncio]>=2.0",
+  "asyncpg>=0.30",
+  "alembic>=1.14",
+  "pgvector>=0.3",
+  "google-genai>=0.3",
+  "google-cloud-aiplatform>=1.71",
+  "langgraph>=0.2.50",
+  "httpx>=0.27",
+  "tenacity>=9.0",
+  "tavily-python>=0.5",
+  "pymupdf>=1.24",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.3",
+  "pandas>=2.2",
+  "numpy>=2.1",
+  "weasyprint>=63",
+  "slowapi>=0.1.9",
+  "pyjwt[crypto]>=2.10",
+  "python-multipart>=0.0.20",
+  "langfuse>=2.55",
+  "structlog>=24.4",
+  "google-cloud-storage>=2.18",
+  "google-cloud-tasks>=2.18",
+  "rank-bm25>=0.2.2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3",
+  "pytest-asyncio>=0.24,<0.27",
+  "pytest-cov>=6.0",
+  "respx>=0.22",
+  "ruff>=0.8",
+  "mypy>=1.13",
+  "types-requests",
+  "ipython",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "RUF"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
