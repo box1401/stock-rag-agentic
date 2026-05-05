@@ -2,7 +2,10 @@
 
 > Agentic equity research copilot for Taiwan-listed companies. Multi-agent LLM workflow grounded on real-time market data, filings, and news with verifiable citations.
 
-[![Stage](https://img.shields.io/badge/stage-M1-orange)]() [![License](https://img.shields.io/badge/license-MIT-blue)]() [![Stack](https://img.shields.io/badge/stack-FastAPI%20%2B%20Next.js%2014%20%2B%20LangGraph-black)]()
+**Live demo (Cloud Run, asia-east1):**
+[Web](https://compass-web-aujzogkiva-de.a.run.app) · [API docs](https://compass-api-aujzogkiva-de.a.run.app/docs) · [Live agent trace](https://compass-web-aujzogkiva-de.a.run.app/trace)
+
+[![Stage](https://img.shields.io/badge/stage-M3-green)]() [![License](https://img.shields.io/badge/license-MIT-blue)]() [![Stack](https://img.shields.io/badge/stack-FastAPI%20%2B%20Next.js%2014%20%2B%20LangGraph-black)]() [![Deploy](https://img.shields.io/badge/deploy-Cloud%20Run-blue)]()
 
 ---
 
