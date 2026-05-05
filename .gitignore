@@ -35,3 +35,5 @@ Thumbs.db
 data/seed/*.pdf
 data/raw/
 *.log
+.tmp_*
+.env.production
