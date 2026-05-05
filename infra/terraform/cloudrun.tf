@@ -1,7 +1,8 @@
 locals {
-  api_image      = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.docker.repository_id}/api:${var.image_tag}"
-  web_image      = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.docker.repository_id}/web:${var.image_tag}"
-  reranker_image = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.docker.repository_id}/reranker:${var.image_tag}"
+  ar_repo        = data.google_artifact_registry_repository.docker.repository_id
+  api_image      = "${var.region}-docker.pkg.dev/${var.project_id}/${local.ar_repo}/api:${var.image_tag}"
+  web_image      = "${var.region}-docker.pkg.dev/${var.project_id}/${local.ar_repo}/web:${var.image_tag}"
+  reranker_image = "${var.region}-docker.pkg.dev/${var.project_id}/${local.ar_repo}/reranker:${var.image_tag}"
 }
 
 # --- API ---

@@ -40,6 +40,19 @@ PROJECT_NUMBER="$(gcloud projects describe "${PROJECT_ID}" --format='value(proje
 echo ">> Enabling APIs (this can take a few minutes)..."
 gcloud services enable "${REQUIRED_APIS[@]}"
 
+# ---- Artifact Registry docker repo --------------------------------------
+AR_REPO="${AR_REPO:-compass}"
+if ! gcloud artifacts repositories describe "${AR_REPO}" \
+       --location="${REGION}" --project="${PROJECT_ID}" >/dev/null 2>&1; then
+  echo ">> Creating Artifact Registry repo ${AR_REPO} in ${REGION}"
+  gcloud artifacts repositories create "${AR_REPO}" \
+    --repository-format=docker \
+    --location="${REGION}" \
+    --description="Compass Equity container images"
+else
+  echo ">> Artifact Registry repo already exists"
+fi
+
 # ---- tfstate bucket -----------------------------------------------------
 TFSTATE_BUCKET="${PROJECT_ID}-tfstate"
 if ! gsutil ls -b "gs://${TFSTATE_BUCKET}" >/dev/null 2>&1; then
