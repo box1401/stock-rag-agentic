@@ -76,7 +76,9 @@ if ! gcloud iam service-accounts describe "${SA_EMAIL}" >/dev/null 2>&1; then
 fi
 
 echo ">> Granting bootstrap roles to deployer (Terraform later refines)..."
-for ROLE in roles/run.admin roles/artifactregistry.writer roles/iam.serviceAccountUser \
+for ROLE in roles/run.admin roles/artifactregistry.writer \
+            roles/iam.serviceAccountUser roles/iam.serviceAccountAdmin \
+            roles/resourcemanager.projectIamAdmin \
             roles/secretmanager.admin roles/storage.admin roles/cloudtasks.admin \
             roles/serviceusage.serviceUsageAdmin roles/iam.workloadIdentityPoolAdmin; do
   gcloud projects add-iam-policy-binding "${PROJECT_ID}" \
