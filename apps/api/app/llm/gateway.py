@@ -41,12 +41,20 @@ class LLMGateway:
         max_output_tokens: int = 4096,
         force_model: str | None = None,
     ) -> GenerationResult:
+        from app.observability import trace_llm_call
+
         models_to_try = [force_model] if force_model else [self._primary, self._fallback]
         last_err: Exception | None = None
+        prompt_summary = "\n".join(f"[{m.role}] {(m.content or '')[:300]}" for m in messages[-3:])
         for model in models_to_try:
             assert model is not None
             try:
-                return await self._call(model, messages, tools, temperature, max_output_tokens)
+                async with trace_llm_call(model, prompt_summary) as finish:
+                    result = await self._call(
+                        model, messages, tools, temperature, max_output_tokens
+                    )
+                    finish(result.text, result.usage)
+                    return result
             except Exception as e:
                 last_err = e
                 log.warning("llm_call_failed", model=model, error=str(e))

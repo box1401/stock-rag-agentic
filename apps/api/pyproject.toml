@@ -48,6 +48,10 @@ dev = [
   "types-requests",
   "ipython",
 ]
+eval = [
+  "ragas>=0.2",
+  "datasets>=3.0",
+]
 
 [tool.ruff]
 line-length = 100

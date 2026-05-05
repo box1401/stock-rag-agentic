@@ -43,6 +43,9 @@ jobs:
         id: tag
         run: echo "sha=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
 
+      - name: Stage seed data into api build context
+        run: cp -r data apps/api/_data
+
       - name: Build & push api image
         run: |
           IMAGE="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPO}/api:${{ steps.tag.outputs.sha }}"

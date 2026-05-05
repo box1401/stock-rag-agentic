@@ -10,6 +10,7 @@ from app.agents.reporter_agent import reporter_node
 from app.agents.risk_agent import revise_node, risk_node, should_revise
 from app.agents.state import AgentState, AgentTraceEvent
 from app.core.logging import get_logger
+from app.observability import trace_agent, trace_pipeline
 
 log = get_logger(__name__)
 
@@ -28,12 +29,12 @@ async def supervisor_node(state: AgentState) -> AgentState:
 
 def build_graph() -> Any:
     graph: StateGraph[AgentState] = StateGraph(AgentState)
-    graph.add_node("supervisor", supervisor_node)
-    graph.add_node("data", data_node)
-    graph.add_node("analyst", analyst_node)
-    graph.add_node("risk", risk_node)
-    graph.add_node("revise", revise_node)
-    graph.add_node("reporter", reporter_node)
+    graph.add_node("supervisor", trace_agent("supervisor")(supervisor_node))
+    graph.add_node("data", trace_agent("data")(data_node))
+    graph.add_node("analyst", trace_agent("analyst")(analyst_node))
+    graph.add_node("risk", trace_agent("risk")(risk_node))
+    graph.add_node("revise", trace_agent("revise")(revise_node))
+    graph.add_node("reporter", trace_agent("reporter")(reporter_node))
 
     graph.add_edge(START, "supervisor")
     graph.add_edge("supervisor", "data")
@@ -67,5 +68,6 @@ async def run_pipeline(
         "trace": [],
         "revisions": 0,
     }
-    result = await _get_compiled().ainvoke(initial)
+    async with trace_pipeline(ticker, mode, language):
+        result = await _get_compiled().ainvoke(initial)
     return result  # type: ignore[no-any-return]

@@ -13,5 +13,9 @@ RUN pip install --upgrade pip && pip install -e ".[dev]"
 
 COPY . .
 
+# CI stages thesis files into _data/ before `docker build` so prod can ingest
+# the seed corpus without requiring an external storage hop.
+RUN if [ -d _data/thesis ]; then mkdir -p /data && cp -r _data/thesis /data/thesis; fi
+
 EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

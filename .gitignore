@@ -37,3 +37,4 @@ data/raw/
 *.log
 .tmp_*
 .env.production
+apps/api/_data/
