@@ -65,9 +65,7 @@ def _finmind_params(dataset: str, ticker: str, days: int) -> dict[str, str]:
     return params
 
 
-async def fetch_finmind_dataset(
-    dataset: str, ticker: str, days: int = 90
-) -> list[dict[str, Any]]:
+async def fetch_finmind_dataset(dataset: str, ticker: str, days: int = 90) -> list[dict[str, Any]]:
     """Generic FinMind fetch. Returns raw `data` array, [] on failure."""
     try:
         payload = await get_json(FINMIND_BASE, params=_finmind_params(dataset, ticker, days))
@@ -101,7 +99,9 @@ async def fetch_stock_day(ticker: str, days: int = 120) -> list[PriceBar]:
 
 
 async def fetch_institutional_trading(ticker: str, days: int = 60) -> list[InstitutionalRow]:
-    rows = await fetch_finmind_dataset("TaiwanStockInstitutionalInvestorsBuySell", ticker, days=days)
+    rows = await fetch_finmind_dataset(
+        "TaiwanStockInstitutionalInvestorsBuySell", ticker, days=days
+    )
     agg: dict[str, InstitutionalRow] = {}
     for r in rows:
         date = r.get("date")
@@ -109,7 +109,7 @@ async def fetch_institutional_trading(ticker: str, days: int = 60) -> list[Insti
             continue
         cur = agg.setdefault(date, InstitutionalRow(date=date))
         name = (r.get("name") or "").lower()
-        net = int((r.get("buy") or 0)) - int((r.get("sell") or 0))
+        net = int(r.get("buy") or 0) - int(r.get("sell") or 0)
         if "foreign" in name:
             cur.foreign_net += net
         elif "investment" in name or "trust" in name:

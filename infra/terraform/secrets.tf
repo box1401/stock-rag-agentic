@@ -29,6 +29,19 @@ resource "google_secret_manager_secret" "all" {
   depends_on = [google_project_service.enabled]
 }
 
+# Cloud Run refuses to start if a referenced secret has zero versions.
+# Seed each secret with an empty placeholder; seed-secrets.sh adds real
+# values as new versions, and Cloud Run reads `:latest` so it picks them up.
+resource "google_secret_manager_secret_version" "placeholder" {
+  for_each    = google_secret_manager_secret.all
+  secret      = each.value.id
+  secret_data = "PLACEHOLDER_RUN_seed-secrets.sh_TO_REPLACE"
+
+  lifecycle {
+    ignore_changes = [secret_data, enabled]
+  }
+}
+
 # Grant the api runtime SA read-access to every secret it consumes
 resource "google_secret_manager_secret_iam_member" "api_accessor" {
   for_each = local.api_secret_env

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import json
+from collections.abc import AsyncIterator
 from datetime import datetime
-from typing import AsyncIterator, Literal
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import StreamingResponse
@@ -35,9 +36,7 @@ class FinalPayload(BaseModel):
     generated_at: datetime
 
 
-async def _stream_pipeline(
-    ticker: str, mode: str, language: str
-) -> AsyncIterator[str]:
+async def _stream_pipeline(ticker: str, mode: str, language: str) -> AsyncIterator[str]:
     initial: AgentState = {
         "ticker": ticker,
         "mode": mode,  # type: ignore[typeddict-item]
@@ -57,7 +56,7 @@ async def _stream_pipeline(
                 evt: AgentTraceEvent = trace_list[seen_trace]
                 yield _sse("trace", evt.model_dump(mode="json"))
                 seen_trace += 1
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         yield _sse("error", {"message": str(e)})
         return
 
@@ -68,7 +67,9 @@ async def _stream_pipeline(
             ticker=ticker,
             markdown=report.markdown,
             citations=report.citations or (analyst.citations if analyst else []),
-            indicators=(analyst.indicators.model_dump() if analyst and analyst.indicators else None),
+            indicators=(
+                analyst.indicators.model_dump() if analyst and analyst.indicators else None
+            ),
             generated_at=datetime.utcnow(),
         )
         yield _sse("final", payload.model_dump(mode="json"))

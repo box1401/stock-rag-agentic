@@ -41,7 +41,9 @@ def load_markdown(path: str | Path, *, ticker: str | None = None) -> LoadedDoc:
     )
 
 
-def load_pdf(path: str | Path, *, ticker: str | None = None, source_type: SourceType = "filing") -> LoadedDoc:
+def load_pdf(
+    path: str | Path, *, ticker: str | None = None, source_type: SourceType = "filing"
+) -> LoadedDoc:
     import pymupdf  # type: ignore[import-not-found]
 
     p = Path(path)
@@ -61,7 +63,9 @@ def load_pdf(path: str | Path, *, ticker: str | None = None, source_type: Source
     )
 
 
-async def load_url_via_jina(url: str, *, ticker: str | None = None, title: str | None = None) -> LoadedDoc:
+async def load_url_via_jina(
+    url: str, *, ticker: str | None = None, title: str | None = None
+) -> LoadedDoc:
     """Use Jina AI Reader to fetch clean article markdown for a URL."""
     jina_url = f"https://r.jina.ai/{url}"
     async with httpx.AsyncClient(timeout=30.0, headers=_DEFAULT_HEADERS) as client:

@@ -67,7 +67,9 @@ def _build_review_prompt(state: AgentState) -> str:
 async def risk_node(state: AgentState) -> AgentState:
     trace: list[AgentTraceEvent] = list(state.get("trace") or [])
     if not state.get("analyst"):
-        trace.append(AgentTraceEvent(agent="risk", event="skipped", detail={"reason": "no_analyst"}))
+        trace.append(
+            AgentTraceEvent(agent="risk", event="skipped", detail={"reason": "no_analyst"})
+        )
         return {**state, "trace": trace}
 
     language = state.get("language", "zh-TW")
@@ -85,7 +87,7 @@ async def risk_node(state: AgentState) -> AgentState:
 
     try:
         parsed = _extract_json(result.text)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log.warning("risk_parse_failed err=%s preview=%r", e, result.text[:200])
         parsed = {"pass": True, "issues": [], "suggestions": []}
 
@@ -140,7 +142,9 @@ async def revise_node(state: AgentState) -> AgentState:
     gateway = get_gateway()
     result = await gateway.generate(
         messages=[
-            ChatMessage(role="system", content="You revise equity research notes per risk-review feedback."),
+            ChatMessage(
+                role="system", content="You revise equity research notes per risk-review feedback."
+            ),
             ChatMessage(
                 role="user",
                 content=(instr_zh if language == "zh-TW" else instr_en)
@@ -176,7 +180,7 @@ async def revise_node(state: AgentState) -> AgentState:
             )
         )
         return {**state, "analyst": revised, "revisions": revisions, "trace": trace}
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log.warning("revise_parse_failed err=%s", e)
         return {**state, "revisions": revisions, "trace": trace}
 

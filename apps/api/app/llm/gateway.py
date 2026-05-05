@@ -47,7 +47,7 @@ class LLMGateway:
             assert model is not None
             try:
                 return await self._call(model, messages, tools, temperature, max_output_tokens)
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 last_err = e
                 log.warning("llm_call_failed", model=model, error=str(e))
         raise LLMError(f"All LLM models failed; last={last_err}") from last_err
@@ -99,9 +99,7 @@ def _to_genai_contents(
                 parts.append(gtypes.Part(text=m.content))
             for tc in m.tool_calls or []:
                 parts.append(
-                    gtypes.Part(
-                        function_call=gtypes.FunctionCall(name=tc.name, args=tc.arguments)
-                    )
+                    gtypes.Part(function_call=gtypes.FunctionCall(name=tc.name, args=tc.arguments))
                 )
             if not parts:
                 parts.append(gtypes.Part(text=""))

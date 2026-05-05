@@ -52,9 +52,7 @@ async def analyze(
     if not report:
         raise HTTPException(status_code=502, detail=state.get("error") or "Pipeline failed")
 
-    indicators = (
-        analyst.indicators.model_dump() if analyst and analyst.indicators else None
-    )
+    indicators = analyst.indicators.model_dump() if analyst and analyst.indicators else None
     trace = [t.model_dump(mode="json") for t in (state.get("trace") or [])]
 
     return AnalyzeResponse(

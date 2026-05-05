@@ -5,7 +5,7 @@ from app.tools.indicators import compute_indicators, compute_pe_percentile
 def _bars(closes: list[float]) -> list[PriceBar]:
     return [
         PriceBar(
-            date=f"2025-01-{i+1:02d}",
+            date=f"2025-01-{i + 1:02d}",
             open=c,
             high=c + 1,
             low=c - 1,

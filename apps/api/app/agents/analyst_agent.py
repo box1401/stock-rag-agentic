@@ -55,8 +55,15 @@ def _tool_defs() -> list[ToolDefinition]:
                 "type": "object",
                 "properties": {
                     "query": {"type": "string", "description": "Search query, in any language."},
-                    "ticker": {"type": "string", "description": "Optional ticker filter, e.g. '2330'."},
-                    "top_k": {"type": "integer", "description": "How many top results to return (1-8).", "default": 5},
+                    "ticker": {
+                        "type": "string",
+                        "description": "Optional ticker filter, e.g. '2330'.",
+                    },
+                    "top_k": {
+                        "type": "integer",
+                        "description": "How many top results to return (1-8).",
+                        "default": 5,
+                    },
                 },
                 "required": ["query"],
             },
@@ -67,7 +74,10 @@ def _tool_defs() -> list[ToolDefinition]:
             parameters={
                 "type": "object",
                 "properties": {
-                    "query": {"type": "string", "description": "Search query, in Chinese or English."},
+                    "query": {
+                        "type": "string",
+                        "description": "Search query, in Chinese or English.",
+                    },
                     "max_results": {"type": "integer", "default": 5},
                 },
                 "required": ["query"],
@@ -134,9 +144,7 @@ async def _exec_tool(call: ToolCall, ticker_hint: str | None) -> tuple[str, list
         lines = []
         cites = []
         for i, r in enumerate(results, 1):
-            lines.append(
-                f"[{i}] {r.title or r.source_type or 'doc'}\n{r.content[:600].strip()}"
-            )
+            lines.append(f"[{i}] {r.title or r.source_type or 'doc'}\n{r.content[:600].strip()}")
             cites.append(
                 {
                     "title": r.title,
@@ -150,10 +158,15 @@ async def _exec_tool(call: ToolCall, ticker_hint: str | None) -> tuple[str, list
         return "\n\n".join(lines), cites
 
     if name == "news_search":
-        hits = await tavily_search(str(args.get("query", "")), max_results=int(args.get("max_results", 5) or 5))
+        hits = await tavily_search(
+            str(args.get("query", "")), max_results=int(args.get("max_results", 5) or 5)
+        )
         if not hits:
             return "(news_search returned 0 results — no API key or quiet news)", []
-        lines = [f"[{i+1}] {h.title} ({h.source})\n{h.snippet}\nURL: {h.url}" for i, h in enumerate(hits)]
+        lines = [
+            f"[{i + 1}] {h.title} ({h.source})\n{h.snippet}\nURL: {h.url}"
+            for i, h in enumerate(hits)
+        ]
         cites = [{"title": h.title, "source_url": h.url, "source_type": "news"} for h in hits]
         return "\n\n".join(lines), cites
 
@@ -171,7 +184,9 @@ async def analyst_node(state: AgentState) -> AgentState:
     trace: list[AgentTraceEvent] = list(state.get("trace") or [])
     data = state.get("data")
     if not data:
-        trace.append(AgentTraceEvent(agent="analyst", event="skipped", detail={"reason": "no_data"}))
+        trace.append(
+            AgentTraceEvent(agent="analyst", event="skipped", detail={"reason": "no_data"})
+        )
         return {**state, "trace": trace}
 
     indicators = compute_indicators(data.prices)
@@ -202,18 +217,22 @@ async def analyst_node(state: AgentState) -> AgentState:
 
     MAX_ITER = 5
     for step in range(MAX_ITER):
-        result = await gateway.generate(messages=messages, tools=tools, temperature=0.2, max_output_tokens=4096)
+        result = await gateway.generate(
+            messages=messages, tools=tools, temperature=0.2, max_output_tokens=4096
+        )
         last_text = result.text
         last_model = result.model
 
         if not result.tool_calls:
             try:
                 parsed = _extract_json(result.text)
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 log.warning("analyst_parse_failed err=%s preview=%r", e, result.text[:200])
             break
 
-        messages.append(ChatMessage(role="assistant", content=result.text or "", tool_calls=result.tool_calls))
+        messages.append(
+            ChatMessage(role="assistant", content=result.text or "", tool_calls=result.tool_calls)
+        )
         for tc in result.tool_calls:
             tool_text, tool_cites = await _exec_tool(tc, ticker)
             citations.extend(tool_cites)
@@ -250,7 +269,9 @@ async def analyst_node(state: AgentState) -> AgentState:
             event="draft_done",
             detail={
                 "bullets": len(output.bullets),
-                "tool_calls": sum(1 for t in trace if t.agent == "analyst" and t.event.startswith("tool:")),
+                "tool_calls": sum(
+                    1 for t in trace if t.agent == "analyst" and t.event.startswith("tool:")
+                ),
                 "model": last_model,
             },
         )

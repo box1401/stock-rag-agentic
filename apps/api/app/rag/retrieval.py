@@ -79,9 +79,7 @@ async def _sparse_search(
         ORDER BY score DESC
         LIMIT :lim
     """
-    rows = await session.execute(
-        text(sql), {"q": query, "ticker": ticker, "lim": limit}
-    )
+    rows = await session.execute(text(sql), {"q": query, "ticker": ticker, "lim": limit})
     return [_row_to_chunk(r) for r in rows.mappings().all()]
 
 
@@ -113,7 +111,7 @@ async def hybrid_search(
     emb_client = get_embedding_client()
     try:
         embedding = await emb_client.embed_query(query)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log.warning("dense_embed_failed err=%s — sparse only", e)
         embedding = None
 

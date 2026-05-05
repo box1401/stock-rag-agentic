@@ -55,7 +55,16 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "N", "RUF"]
-ignore = ["E501"]
+ignore = [
+  "E501",   # line too long (handled by formatter)
+  "B008",   # FastAPI / typer pattern: Depends()/Query() in defaults
+  "RUF001", # ambiguous unicode in strings (legitimate Chinese punctuation)
+  "RUF002", # same in docstrings
+  "RUF003", # same in comments
+  "RUF007", # itertools.pairwise — clarity preferred for zip(a, a[1:])
+  "B007",   # unused loop variable — used by tests
+  "N806",   # uppercase var in function — used by tests / constants
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

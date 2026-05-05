@@ -43,7 +43,7 @@ async def tavily_search(
             resp = await client.post(TAVILY_URL, json=payload)
             resp.raise_for_status()
             data = resp.json()
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log.warning("tavily_failed err=%s", e)
         return []
 
@@ -69,7 +69,7 @@ async def jina_extract(url: str) -> str:
             resp = await client.get(jina_url)
             resp.raise_for_status()
             return resp.text
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log.warning("jina_failed url=%s err=%s", url, e)
         return ""
 
@@ -77,5 +77,5 @@ async def jina_extract(url: str) -> str:
 def _domain(url: str) -> str:
     try:
         return url.split("/")[2]
-    except Exception:  # noqa: BLE001
+    except Exception:
         return ""

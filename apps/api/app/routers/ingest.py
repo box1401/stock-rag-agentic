@@ -42,7 +42,9 @@ async def ingest_url_endpoint(
     payload: IngestUrlRequest, session: AsyncSession = Depends(get_session)
 ) -> IngestResult:
     try:
-        doc_id, n = await ingest_url(session, payload.url, ticker=payload.ticker, title=payload.title)
+        doc_id, n = await ingest_url(
+            session, payload.url, ticker=payload.ticker, title=payload.title
+        )
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"ingest failed: {e}") from e
     return IngestResult(items=[{"document_id": str(doc_id), "chunks": n}])

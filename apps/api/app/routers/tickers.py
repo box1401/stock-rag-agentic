@@ -22,6 +22,5 @@ class TickerRow(BaseModel):
 async def list_tickers(session: AsyncSession = Depends(get_session)) -> list[TickerRow]:
     rows = (await session.execute(select(Ticker).order_by(Ticker.symbol))).scalars().all()
     return [
-        TickerRow(symbol=r.symbol, name=r.name, market=r.market, industry=r.industry)
-        for r in rows
+        TickerRow(symbol=r.symbol, name=r.name, market=r.market, industry=r.industry) for r in rows
     ]

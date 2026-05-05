@@ -5,7 +5,6 @@ from uuid import UUID
 
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
-    JSON,
     Date,
     DateTime,
     ForeignKey,
@@ -17,7 +16,8 @@ from sqlalchemy import (
     UniqueConstraint,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID as PGUUID
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -88,7 +88,9 @@ class Document(Base):
         PGUUID(as_uuid=True), primary_key=True, server_default=func.gen_random_uuid(), init=False
     )
     source_url: Mapped[str | None] = mapped_column(String, default=None)
-    ticker: Mapped[str | None] = mapped_column(ForeignKey("tickers.symbol"), default=None, index=True)
+    ticker: Mapped[str | None] = mapped_column(
+        ForeignKey("tickers.symbol"), default=None, index=True
+    )
     title: Mapped[str | None] = mapped_column(String, default=None)
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None)
     raw_path: Mapped[str | None] = mapped_column(String, default=None)

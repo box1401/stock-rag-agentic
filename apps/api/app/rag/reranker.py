@@ -29,7 +29,7 @@ async def rerank(query: str, candidates: list[str], top_k: int | None = None) ->
             resp.raise_for_status()
             data = resp.json()
             return [RerankResult(**r) for r in data.get("results", [])]
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log.warning("reranker_unreachable err=%s — using identity order", e)
         n = len(candidates) if top_k is None else min(top_k, len(candidates))
         return [RerankResult(index=i, score=1.0 / (i + 1)) for i in range(n)]

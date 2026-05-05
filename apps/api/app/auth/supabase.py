@@ -47,9 +47,7 @@ def _from_header(authorization: str | None) -> CurrentUser | None:
 async def get_current_user(authorization: str | None = Header(default=None)) -> CurrentUser:
     user = _from_header(authorization)
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing bearer token"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing bearer token")
     return user
 
 
