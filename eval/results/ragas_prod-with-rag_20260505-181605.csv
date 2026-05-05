@@ -1,0 +1,40 @@
+id,ticker,language,keyword_recall,keyword_precision,refused,latency_s,trace_events,error
+tsmc-thesis-1,2330,en,0.0,0.0,False,173.73507629998494,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+tsmc-thesis-2,2330,en,0.4,0.0086,False,109.65,15,
+tsmc-thesis-3,2330,en,0.0,0.0,False,66.60175860003801,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+tsmc-thesis-zh-1,2330,zh-TW,0.0,0.0,False,10.734161600004882,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+tsmc-thesis-zh-2,2330,zh-TW,0.0,0.0,False,10.637815099966247,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+mediatek-1,2454,en,0.0,0.0,False,10.63263399997959,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+mediatek-2,2454,en,0.0,0.0,False,10.565779500000644,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+mediatek-bear-1,2454,en,0.0,0.0,False,10.659716300026048,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+macro-1,,en,0.0,0.0,False,10.750667399959639,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+macro-2,,en,0.0,0.0,False,10.65235859999666,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+macro-3,,en,0.0,0.0,False,10.545144400035497,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+macro-zh-1,,zh-TW,0.0,0.0,False,10.544317800027784,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+macro-zh-2,,zh-TW,0.0,0.0,False,10.507602099969517,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+tsmc-cross-1,2330,en,0.0,0.0,False,10.724278300011065,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+no-context-1,1234,en,0.0,0.0,False,10.532872100011446,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+no-context-2,,en,0.0,0.0,False,10.543524199980311,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+tsmc-revenue-1,2330,zh-TW,0.0,0.0,False,10.638896999997087,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+tsmc-tech-1,2330,zh-TW,0.0,0.0,False,10.525761099997908,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+ase-1,3711,en,0.0,0.0,False,10.583064300008118,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+process-node-1,2330,en,0.0,0.0,False,10.513497100037057,0,"Server error '500 Internal Server Error' for url 'https://compass-api-aujzogkiva-de.a.run.app/api/v1/analyze'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"

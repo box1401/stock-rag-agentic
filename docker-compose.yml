@@ -30,6 +30,9 @@ services:
     volumes:
       - ./apps/api:/app
       - ./data:/data:ro
+    extra_hosts:
+      # Lets LLM_PROVIDER=ollama reach `ollama serve` on the laptop's localhost
+      - "host.docker.internal:host-gateway"
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   web:

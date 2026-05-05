@@ -14,9 +14,15 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://postgres:postgres@db:5432/compass"
 
+    llm_provider: Literal["gemini", "ollama"] = "gemini"
+
     gemini_api_key: str = ""
-    gemini_model_primary: str = "gemini-2.0-flash"
-    gemini_model_fallback: str = "gemini-1.5-pro"
+    gemini_model_primary: str = "gemini-2.5-flash"
+    gemini_model_fallback: str = "gemini-2.5-flash-lite"
+
+    ollama_base_url: str = "http://host.docker.internal:11434"
+    ollama_model_primary: str = "qwen2.5:14b"
+    ollama_model_fallback: str = "qwen2.5:7b"
 
     gcp_project_id: str = ""
     gcp_region: str = "asia-east1"
